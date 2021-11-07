@@ -97,3 +97,38 @@ services:
     volumes:
       - $HOME/.grumble:/data
 ```
+
+
+
+
+Awesome, perfect install. For anyone else going down this route, here are the instructions for GoLang 1.10 on Pi (lifted from elsewhere on Git)
+
+To install golang 1.10 (or whatever the latest version is at the time anyone is reading this):
+
+wget https://storage.googleapis.com/golang/go1.10.linux-armv6l.tar.gz
+sudo tar -C /usr/local -xvf go1.10.linux-armv6l.tar.gz
+cat >> ~/.bashrc << 'EOF'
+export GOPATH=$HOME/go
+export PATH=/usr/local/go/bin:$PATH:$GOPATH/bin
+EOF
+source ~/.bashrc
+
+Run go version to check and you should see output of: go version g1.10 linux/arm also this preserves /usr/bin/go is you installed it previously.
+
+Now, excuse my blatant lack of knowledge, but what next? Does this sit on top of a mumble-server install or instead? I’ve just removed a working mumble and hope for grumble to take its place!
+
+UPDATE:
+
+Following reboot, setup GOPATH
+$ export GOPATH=$HOME/gocode
+$ mkdir -p $GOPATH
+
+Then run the following line:
+$ go get mumble.info/grumble/cmd/grumble
+
+CD in to GOPATH/src/mumble.info/grumble/cmd/grumble and make any config changes you need before building the program: go build -o grumble mumble.info/grumble/cmd/grumble
+
+And check ./grumble —help this will expose the various command line switches, you will need to populate at least the following:
+
+./grumble --datadir ~/gocode --log ~/gocode/log
+
